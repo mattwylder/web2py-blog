@@ -1,4 +1,10 @@
 {{extend 'layout.html'}}
+<p>
+    {{=same}}
+</p>
+{{if same:}}
+{{=A(Edit, _href=URL('edit',args=post_id))}}
+{{pass}}
 <div class="post">
     <h3>{{=A(username, _href=URL('profile',args=user_id))}}</h3>
     <h1>{{=title}}</h1>
@@ -15,10 +21,10 @@
     </div>
 </p></br>
 {{else:}}
-<h4>Start the conversation</h4>
+<h4>Start the conversation!</h4>
 {{pass}}
 {{if auth.user:}}
-<h4>Join the conversation</h4>
+<h4>Join the conversation!</h4>
 {{=form}}
 {{else:}}
 <h4>{{=A("Log in to comment!", _href=URL('user/login'))}}</h4>

@@ -29,21 +29,34 @@ def create():
 #@auth.requires_login()
 def show():
     #TODO: Allow editing/ deletion if you're the user who created this
+    cur_user = auth.user
     post = db.post(request.args(0,cast=int)) or redirect(URL('index'))
     title=post.title
     user_id=post.user_id
+    same = cur_user.id == user_id
     body = post.body
     comments = db(db.comment.post_id==post.id).select()
+    #TODO: autofill db.comment.post_id with post.id
     form = SQLFORM(db.comment)
     if form.process().accepted:
         response.flash = 'Comment posted'
-    return dict(title=title, username=user_id, user_id=user_id, body=body, comments=comments, form=form)
+    return dict(same=same, title=title, post_id=post.id, username=user_id, user_id=user_id, body=body, comments=comments, form=form)
 
 def profile():
     user_id = request.args(0, cast=int)
-    #user = db(db.auth_user.id == user_id).select();
+    #user = db(db.auth_user.id == user_id).select()[0];
+    #user = db().select(db.auth_user.ALL);
     posts = db(db.post.user_id == user_id).select();
     return dict(user_id=user_id, posts=posts)
+
+@auth.requires_login()
+def edit():
+    post_id = request.args(0,cast=int)
+    record = db(db.post.id == post_id).select().first()
+    form = SQLFORM(db.post, record, deletable = True, delete_label=T('Check to delete'))
+    if form.accepts(request.vars, session):
+        session.flash = T('done!')
+    return dict(form=form)
 
 def user():
     """

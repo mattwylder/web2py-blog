@@ -96,7 +96,7 @@ db = DAL("sqlite://storage.sqlite")
 db.define_table('post',
    Field('title'),
    Field('date_created', 'datetime', default=request.now),
-   Field('user_id', default=auth.user_id),
+   Field('user_id', 'id', default=auth.user_id),
    Field('body', 'text'))
 
 db.post.date_created.writable = db.post.date_created.readable = False;
@@ -104,7 +104,7 @@ db.post.user_id.writable =  db.post.user_id.readable = False;
 
 db.define_table('comment',
    Field('date_created', 'datetime', default=request.now),
-   Field('user_id', default=auth.user_id),
+   Field('user_id', 'id', default=auth.user_id),
    Field('body', 'text'),
    Field('post_id', 'reference post'))
 
