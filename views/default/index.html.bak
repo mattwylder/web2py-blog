@@ -1,0 +1,8 @@
+{{extend 'layout.html'}}
+<h1>Current Posts</h1>
+{{=A("Create a post", _href=URL("create"))}}
+<ul>
+{{for post in posts:}}
+{{=LI(A(post.title, _href=URL("show", args=post.id)) + " - " + post.user_id + " " + post.date_created)}}
+{{pass}}
+</ul>
