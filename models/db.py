@@ -109,3 +109,4 @@ db.define_table('post_com',
 
 db.post_com.date_created.writable = db.post_com.date_created.readable = False;
 db.post_com.user_id.writable =  db.post_com.user_id.readable = False;
+db.post_com.post_id.writable =  db.post_com.post_id.readable = False;
