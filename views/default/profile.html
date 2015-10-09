@@ -1,7 +1,7 @@
 {{extend 'layout.html'}}
-<h1>Posts by {{=user_id}}</h1>
+<h1>Posts by {{=username}}</h1>
 <ul>
 {{for post in posts:}}
-{{=LI(A(post.title, _href=URL("show", args=post.id)) + " - " + post.user_id + " " + post.date_created)}}
+{{=LI(A(post.title, _href=URL("show", args=post.id)) + " - " + post.date_created)}}
 {{pass}}
 </ul>

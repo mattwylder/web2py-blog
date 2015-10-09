@@ -16,7 +16,7 @@ def index():
     if you need a simple wiki simply replace the two lines below with:
     return auth.wiki()
     """
-    posts = db().select(db.post.ALL);
+    posts = db(db.post.id > 0).select();
     return dict(posts=posts)
 
 @auth.requires_login()
@@ -33,21 +33,27 @@ def show():
     post = db.post(request.args(0,cast=int)) or redirect(URL('index'))
     title=post.title
     user_id=post.user_id
+    username = db
     same = cur_user.id == user_id
     body = post.body
-    comments = db(db.comment.post_id==post.id).select()
+    comments = db(db.post_com.post_id==post.id).select()
+
+    user_id = request.args(0, cast=int)
+    user = db(db.auth_user.id == user_id).select().first()
+    username = user.first_name + " " + user.last_name
     #TODO: autofill db.comment.post_id with post.id
-    form = SQLFORM(db.comment)
+    form = SQLFORM(db.post_com)
+    db.post_com.post_id.default = post.id
     if form.process().accepted:
         response.flash = 'Comment posted'
-    return dict(same=same, title=title, post_id=post.id, username=user_id, user_id=user_id, body=body, comments=comments, form=form)
+    return dict(same=same, title=title, post_id=post.id, username=username, user_id=user_id, body=body, comments=comments, form=form)
 
 def profile():
     user_id = request.args(0, cast=int)
-    #user = db(db.auth_user.id == user_id).select()[0];
-    #user = db().select(db.auth_user.ALL);
-    posts = db(db.post.user_id == user_id).select();
-    return dict(user_id=user_id, posts=posts)
+    user = db(db.auth_user.id == user_id).select().first()
+    username = user.first_name + " " + user.last_name
+    posts = db(db.post.user_id == user_id).select()
+    return dict(user=user,username=username, posts=posts)
 
 #Require specific user
 #this crashes for some reason I have no fucking clue why

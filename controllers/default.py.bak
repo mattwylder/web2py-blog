@@ -49,6 +49,8 @@ def profile():
     posts = db(db.post.user_id == user_id).select();
     return dict(user_id=user_id, posts=posts)
 
+#Require specific user
+#this crashes for some reason I have no fucking clue why
 @auth.requires_login()
 def edit():
     post_id = request.args(0,cast=int)
