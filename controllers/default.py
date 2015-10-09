@@ -41,8 +41,9 @@ def show():
     user = db(db.auth_user.id == user_id).select().first()
     username = user.first_name + " " + user.last_name
     #TODO: autofill db.comment.post_id with post.id
-    form = SQLFORM(db.post_com)
+    
     db.post_com.post_id.default = post.id
+    form = SQLFORM(db.post_com)
     if form.process().accepted:
         response.flash = 'Comment posted'
     return dict(same=same, title=title, post_id=post.id, username=username, user_id=user_id, body=body, comments=comments, form=form)

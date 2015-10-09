@@ -91,8 +91,6 @@ auth.settings.reset_password_requires_verification = True
 ## after defining tables, uncomment below to enable auditing
 # auth.enable_record_versioning(db)
 
-#db = DAL("sqlite://stoge.e
-
 db.define_table('post',
    Field('title'),
    Field('date_created', 'datetime', default=request.now),
@@ -112,6 +110,6 @@ db.define_table('post_com',
 
 #db.comment.post_id.requires = IS_IN_DB(db, db.post.id)
 
-#db.post_com.date_created.writable = db.post_com.date_created.readable = False;
-#db.post_com.user_id.writable =  db.post_com.user_id.readable = False;
+db.post_com.date_created.writable = db.post_com.date_created.readable = False;
+db.post_com.user_id.writable =  db.post_com.user_id.readable = False;
 #db.comment.post_id.writable = db.comment.post_id.readable = False;
