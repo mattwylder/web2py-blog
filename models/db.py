@@ -99,8 +99,8 @@ db.define_table('post',
    Field('user_id', 'id', default=auth.user_id),
    Field('body', 'text'))
 
-db.post.date_created.writable = db.post.date_created.readable = False;
-db.post.user_id.writable =  db.post.user_id.readable = False;
+#db.post.date_created.writable = db.post.date_created.readable = False;
+#db.post.user_id.writable =  db.post.user_id.readable = False;
 
 db.define_table('post_com',
    Field('date_created', 'datetime',
@@ -113,5 +113,5 @@ db.define_table('post_com',
 #db.comment.post_id.requires = IS_IN_DB(db, db.post.id)
 
 #db.post_com.date_created.writable = db.post_com.date_created.readable = False;
-db.post_com.user_id.writable =  db.post_com.user_id.readable = False;
+#db.post_com.user_id.writable =  db.post_com.user_id.readable = False;
 #db.comment.post_id.writable = db.comment.post_id.readable = False;

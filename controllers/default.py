@@ -37,7 +37,6 @@ def show():
     same = cur_user.id == user_id
     body = post.body
     comments = db(db.post_com.post_id==post.id).select()
-
     user_id = request.args(0, cast=int)
     user = db(db.auth_user.id == user_id).select().first()
     username = user.first_name + " " + user.last_name
@@ -60,9 +59,11 @@ def profile():
 @auth.requires_login()
 def edit():
     post_id = request.args(0,cast=int)
-    record = db(db.post.id == post_id).select().first()
-    form = SQLFORM(db.post, record, deletable = True, delete_label=T('Check to delete'))
-    if form.accepts(request.vars, session):
+    record = db((db.post.id == post_id) &
+		(db.post.user_id == auth.user.id)
+		).select().first()
+    form = SQLFORM(db.post,record).process()
+    if form.accepted:
         session.flash = T('done!')
     return dict(form=form)
 

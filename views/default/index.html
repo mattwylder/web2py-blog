@@ -5,6 +5,6 @@
 {{for post in posts:}}
 {{ user = db(db.auth_user.id == post.user_id).select().first()}}
 {{username = user.first_name + " " + user.last_name}}
-{{=LI(A(post.title, _href=URL("show", args=post.id)) + " - " + username+ " on " + post.date_created)}}
+{{=LI(A(post.title, _href=URL("show", args=post.id)) + " - " + username+ " on " + post.date_created +" " + post.id)}}
 {{pass}}
 </ul>
