@@ -34,7 +34,9 @@ def show():
     title=post.title
     user_id=post.user_id
     username = db
-    same = cur_user.id == user_id
+    same = False;
+    if auth.user:
+    	same = cur_user.id == user_id
     body = post.body
     comments = db(db.post_com.post_id==post.id).select()
     user_id = request.args(0, cast=int)
